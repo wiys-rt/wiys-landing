@@ -25,8 +25,36 @@
   </div>
   <div id="thankyou-screen" class="hidden">
     <h1>¡Listo!</h1>
-    <p>Ya tienes en tu correo 📩 el enlace de la tienda. Recuerda, este link solo funcionará mientras que los productos estén disponibles</p>
+    <p class="subtitle">Ya tienes en tu correo 📩 el enlace de la tienda.</p>
+    <p class="subtitle">Recuerda, este link solo funcionará mientras que los productos estén disponibles. ⏳</p>
   </div>
-  <script src="script.js"></script>
+  <script>
+  const form = document.getElementById('register-form');
+  const formScreen = document.getElementById('form-screen');
+  const thankyouScreen = document.getElementById('thankyou-screen');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+
+    fetch('https://script.google.com/macros/s/AKfycbwdXzFOJeJo2jW3GI5Bh5L-dgDi3glI6N7V070r9n01EtCIiT3h_5c9p8iiOPyYVHiQxQ/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nombre: name, correo: email })
+    }).then(() => {
+      
+      formScreen.classList.add('hidden');
+      thankyouScreen.classList.remove('hidden');
+    }).catch(err => {
+      console.error('Error al enviar:', err);
+      alert('Hubo un problema al enviar tus datos. Intenta de nuevo.');
+    });
+  });
+</script>
 </body>
 </html>
